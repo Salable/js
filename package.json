@@ -1,0 +1,47 @@
+{
+  "name": "@salable/js",
+  "version": "1.0.0",
+  "description": "A set of functions to simplify building Salable applications with JS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "vitest",
+    "build": "rollup -c",
+    "preversion": "npm run build",
+    "prepare": "husky install",
+    "semantic-release": "semantic-release"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Salable Team",
+  "repository": {
+    "url": "https://github.com/Salable/js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "prettier": "3.1.0",
+    "rollup": "^4.5.2",
+    "semantic-release": "^22.0.8",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.2",
+    "vitest": "^0.34.6",
+    "vitest-fetch-mock": "^0.2.2"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
+  }
+}
