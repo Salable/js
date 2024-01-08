@@ -6,10 +6,16 @@ import commonjs from '@rollup/plugin-commonjs'
 /** @type import('rollup') */
 export default {
   input: 'lib/index.ts',
-  output: {
-    file: packageJson.main,
-    format: 'esm',
-  },
+  output: [
+    {
+      file: packageJson.module,
+      format: 'esm',
+    },
+    {
+      file: packageJson.main,
+      format: 'cjs',
+    },
+  ],
   external: [],
   plugins: [
     commonjs(),

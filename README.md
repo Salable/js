@@ -16,9 +16,8 @@ pnpm install @salable/js
 
 ## Functions
 
-We recommend using
-[ESM](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) to
-interact with this library (if possible), both in the browser and in Node.js.
+The library features exports for both ECMAScript Modules (ESM) and CommonJS
+(CJS).
 
 For convenience, the functions documented are also added to the `window` object
 on the web under the `salable` object. So, `getUser` can be accessed via
