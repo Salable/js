@@ -42,9 +42,10 @@ export type UserData = {
    * Used to check whether a user has either an active capability, or a list of
    * supplied capabilities. Capability names are case insensitive.
    *
-   * All inactive capabilities will return false. If you want to check against a
-   * capability that isn't active, use the `capabilities` array returned by this
-   * hook.
+   * All inactive capabilities will return false. This includes capabilities
+   * that are on 'canceled' licenses. If you want to check for a capability
+   * that isn't active, or is on a canceled license, use the `capabilities`
+   * array returned by this hook.
    *
    * To check a single capability:
    * ```
@@ -82,13 +83,15 @@ async function _getUser({
     (license) => license.productUuid === productUuid,
   )
 
-  const capabilities = licenses.flatMap(
-    (license) =>
-      license.capabilities.flatMap((capability) => ({
-        name: capability.name,
-        status: capability.status,
-      })) ?? [],
-  )
+  const capabilities = licenses
+    .filter((license) => license.status === 'ACTIVE')
+    .flatMap(
+      (license) =>
+        license.capabilities.flatMap((capability) => ({
+          name: capability.name,
+          status: capability.status,
+        })) ?? [],
+    )
 
   // Overload for checking an individual capability.
   function hasCapability(capability: string): boolean
