@@ -25,6 +25,15 @@ describe('getUser', () => {
     expect(capabilities).toMatchObject([{ name: 'create', status: 'ACTIVE' }])
   })
 
+  it('excludes capabilities on canceled licenses from list', async () => {
+    const { capabilities } = await getUser({
+      ...baseGetUserValues,
+      granteeId: 'test-user-1',
+    })
+
+    expect(capabilities).not.toMatchObject([{ name: 'notify' }])
+  })
+
   it('filters out products that do not match the provided productUuid', async () => {
     const { licenses, capabilities } = await getUser({
       productUuid: 'test',
@@ -68,6 +77,15 @@ describe('getUser', () => {
         edit: false,
         create: true,
       })
+    })
+
+    it('returns false for capabilities on canceled licenses', async () => {
+      const { hasCapability } = await getUser({
+        ...baseGetUserValues,
+        granteeId: 'test-user-1',
+      })
+
+      expect(hasCapability('notify')).toEqual(false)
     })
   })
 })

@@ -63,6 +63,34 @@ const mockResponseData = [
     updatedAt: '2019-08-24T14:15:22Z',
     isTest: true,
   },
+  {
+    uuid: '095be615-a8ad-4c33-8e9c-c7612fbf6c9g',
+    productUuid: '3a88375a-5ea7-4e22-b7fe-b3c10f9367f3',
+    planUuid: '4da9429c-fce6-4d7f-97f3-072e42f5878c',
+    subscriptionUuid: '466672c4-1527-4594-82f2-3d3ac972eb69',
+    granteeId: 'test-user-1',
+    purchaser: 'purchaser-2@example.com',
+    email: 'user@example.com',
+    name: 'John Doe',
+    paymentService: 'Stripe',
+    type: 'Renew',
+    capabilities: [
+      {
+        uuid: '095be615-a8ad-4c33-8e9c-c7612fbf6c9f',
+        name: 'notify',
+        description: 'Allows a user to create something',
+        status: 'ACTIVE',
+        productUuid: '3a88375a-5ea7-4e22-b7fe-b3c10f9367f3',
+        updatedAt: '2019-08-24T14:15:22Z',
+      },
+    ],
+    startTime: '2019-08-24T14:15:22Z',
+    endTime: '2019-08-24T14:15:22Z',
+    status: 'CANCELED',
+    metadata: 'string',
+    updatedAt: '2019-08-24T14:15:22Z',
+    isTest: true,
+  },
 ]
 
 export { mockResponseData }
