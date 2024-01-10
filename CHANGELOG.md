@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/Salable/js/compare/v2.0.0...v2.1.0) (2024-01-10)
+
+
+### Features
+
+* add CJS export ([17281a1](https://github.com/Salable/js/commit/17281a198a914b91e8fd6d6c4e058b9a3ada8dfa))
+
 # [2.0.0](https://github.com/Salable/js/compare/v1.0.0...v2.0.0) (2024-01-09)
 
 
