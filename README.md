@@ -19,6 +19,12 @@ pnpm install @salable/js
 The library features exports for both ECMAScript Modules (ESM) and CommonJS
 (CJS).
 
+```js
+import salableJs from '@salable/js'
+// or
+const salableJs = require('@salable/js')
+```
+
 For convenience, the functions documented are also added to the `window` object
 on the web under the `salable` object. So, `getUser` can be accessed via
 `window.salable.getUser`.
