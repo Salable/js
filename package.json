@@ -1,6 +1,6 @@
 {
   "name": "@salable/js",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A set of functions to simplify building Salable applications with JS",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

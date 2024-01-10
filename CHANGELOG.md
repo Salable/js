@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/Salable/js/compare/v2.1.0...v2.2.0) (2024-01-10)
+
+
+### Features
+
+* add module usage examples to README.md ([8ba0773](https://github.com/Salable/js/commit/8ba0773899e87f5a274f11a0ff19bea26bfb14c9))
+
 # [2.1.0](https://github.com/Salable/js/compare/v2.0.0...v2.1.0) (2024-01-10)
 
 
