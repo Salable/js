@@ -54,7 +54,7 @@ if (hasCapability('edit')) {
 }
 ```
 
-### `withProduct({ apiKey: string, productUuid: string, withDeprecated?: boolean})`
+### `getProduct({ apiKey: string, productUuid: string, withDeprecated?: boolean})`
 
 Returns useful data about the current product. Can be used for many things
 including the creation of custom pricing tables.
@@ -68,7 +68,30 @@ options object with { withDeprecated: true }.
 ```js
 import { getProduct } from '@salable/js'
 
-const { name, plans } = await getProduct({ withDeprecated: true })
+const { name, plans } = await getProduct({
+  apiKey: 'your-api-key',
+  productUuid: 'your-product-uuid',
+  withDeprecated: true,
+})
+```
+
+### `getCheckoutLink({ apiKey: string, planUuid: string, successUrl: string, cancelUrl: string, granteeId: string, member: string })`
+
+Returns a checkout link for the specified `planUuid`.
+
+#### Example
+
+```js
+import { getCheckoutLink } from '@salable/js'
+
+const checkoutLink = await getCheckoutLink({
+  planUuid: 'your-plan-uuid',
+  apiKey: 'your-api-key',
+  successUrl: 'https://your.apps/success',
+  cancelUrl: 'https://your.apps/cancel',
+  granteeId: 'your-users-id',
+  member: 'your-users-id',
+})
 ```
 
 ### `createScope({ apiKey: string, productUuid: string })`
