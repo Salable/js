@@ -1,12 +1,14 @@
 import { createScope } from './createScope.js'
 import { getUser } from './getUser.js'
 import { getProduct } from './getProduct.js'
+import { getCheckoutLink } from './getCheckoutLink.js'
 
 declare global {
   interface Window {
     salable: {
       getUser: typeof getUser
       getProduct: typeof getProduct
+      getCheckoutLink: typeof getCheckoutLink
     }
   }
 }
@@ -24,9 +26,10 @@ function addToWindow() {
   window.salable = {
     getUser,
     getProduct,
+    getCheckoutLink,
   }
 }
 
 addToWindow()
 
-export { createScope, getUser, getProduct }
+export { createScope, getUser, getProduct, getCheckoutLink }
