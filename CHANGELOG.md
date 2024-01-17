@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/Salable/js/compare/v2.2.0...v2.3.0) (2024-01-17)
+
+
+### Features
+
+* add getCheckoutLink function ([3e53a06](https://github.com/Salable/js/commit/3e53a06961d0e51eebd295bf028a4dc3901d5e83))
+
 # [2.2.0](https://github.com/Salable/js/compare/v2.1.0...v2.2.0) (2024-01-10)
 
 
