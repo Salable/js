@@ -143,7 +143,11 @@ async function _getGrantee({
   }
 }
 
-type ScopedReturnFn = (granteeId: string) => Promise<UserData>
+type ScopedReturnFn = ({
+  granteeId,
+}: {
+  granteeId: string
+}) => Promise<UserData>
 
 function getGrantee(params: Omit<GetGranteeParams, 'granteeId'>): ScopedReturnFn
 
@@ -157,8 +161,7 @@ function getGrantee({
   granteeId?: string
 }): ScopedReturnFn | Promise<UserData> {
   if (typeof granteeId === 'undefined') {
-    return (granteeId: string) =>
-      _getGrantee({ apiKey, productUuid, granteeId })
+    return ({ granteeId }) => _getGrantee({ apiKey, productUuid, granteeId })
   }
 
   return _getGrantee({ apiKey, productUuid, granteeId })
