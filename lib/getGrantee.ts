@@ -18,7 +18,7 @@ type UserLicense = {
     | 'INACTIVE'
 }
 
-type GetUserParams = {
+type GetGranteeParams = {
   apiKey: string
   productUuid: string
   granteeId: string
@@ -60,11 +60,11 @@ export type UserData = {
   hasCapability: HasCapability
 }
 
-async function _getUser({
+async function _getGrantee({
   apiKey,
   productUuid,
   granteeId,
-}: GetUserParams): Promise<UserData> {
+}: GetGranteeParams): Promise<UserData> {
   const response = await fetch(
     `https://api.salable.app/licenses/granteeId/${granteeId}`,
     {
@@ -145,22 +145,23 @@ async function _getUser({
 
 type ScopedReturnFn = (granteeId: string) => Promise<UserData>
 
-function getUser(params: Omit<GetUserParams, 'granteeId'>): ScopedReturnFn
+function getGrantee(params: Omit<GetGranteeParams, 'granteeId'>): ScopedReturnFn
 
-function getUser(params: GetUserParams): Promise<UserData>
+function getGrantee(params: GetGranteeParams): Promise<UserData>
 
-function getUser({
+function getGrantee({
   apiKey,
   productUuid,
   granteeId,
-}: Omit<GetUserParams, 'granteeId'> & {
+}: Omit<GetGranteeParams, 'granteeId'> & {
   granteeId?: string
 }): ScopedReturnFn | Promise<UserData> {
   if (typeof granteeId === 'undefined') {
-    return (granteeId: string) => _getUser({ apiKey, productUuid, granteeId })
+    return (granteeId: string) =>
+      _getGrantee({ apiKey, productUuid, granteeId })
   }
 
-  return _getUser({ apiKey, productUuid, granteeId })
+  return _getGrantee({ apiKey, productUuid, granteeId })
 }
 
-export { getUser }
+export { getGrantee }

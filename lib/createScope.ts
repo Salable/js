@@ -1,4 +1,4 @@
-import { getUser } from './getUser.js'
+import { getGrantee } from './getGrantee.js'
 import { getProduct } from './getProduct.js'
 import { GetCheckoutLinkArgs, getCheckoutLink } from './getCheckoutLink.js'
 
@@ -9,7 +9,7 @@ type CreateScopeArgs = {
 
 function createScope({ apiKey, productUuid }: CreateScopeArgs) {
   return {
-    getUser: getUser({ apiKey, productUuid }),
+    getGrantee: getGrantee({ apiKey, productUuid }),
     getProduct: ({ withDeprecated }: { withDeprecated: boolean }) =>
       getProduct({ apiKey, productUuid, withDeprecated }),
     getCheckoutLink: (params: Omit<GetCheckoutLinkArgs, 'apiKey'>) =>

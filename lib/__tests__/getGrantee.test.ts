@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import 'vitest-fetch-mock'
-import { getUser } from '../getUser'
+import { getGrantee } from '../getGrantee'
 import { mockResponseData } from './getUserData'
 
 const baseGetUserValues = {
@@ -8,16 +8,16 @@ const baseGetUserValues = {
   apiKey: 'my-api-key',
 }
 
-describe('getUser', () => {
+describe('getGrantee', () => {
   beforeEach(() => {
     fetchMock.mockOnce(JSON.stringify(mockResponseData))
   })
   it('returns scoped version if granteeId is omitted', () => {
-    expect(getUser(baseGetUserValues)).toBeTypeOf('function')
+    expect(getGrantee(baseGetUserValues)).toBeTypeOf('function')
   })
 
   it('returns the correct capabilities', async () => {
-    const { capabilities } = await getUser({
+    const { capabilities } = await getGrantee({
       ...baseGetUserValues,
       granteeId: 'hi',
     })
@@ -26,7 +26,7 @@ describe('getUser', () => {
   })
 
   it('excludes capabilities on canceled licenses from list', async () => {
-    const { capabilities } = await getUser({
+    const { capabilities } = await getGrantee({
       ...baseGetUserValues,
       granteeId: 'test-user-1',
     })
@@ -35,7 +35,7 @@ describe('getUser', () => {
   })
 
   it('filters out products that do not match the provided productUuid', async () => {
-    const { licenses, capabilities } = await getUser({
+    const { licenses, capabilities } = await getGrantee({
       productUuid: 'test',
       apiKey: 'my-api-key',
       granteeId: 'hi',
@@ -47,7 +47,7 @@ describe('getUser', () => {
 
   describe('hasCapability', () => {
     it('correctly checks for individual capabilities', async () => {
-      const { hasCapability } = await getUser({
+      const { hasCapability } = await getGrantee({
         ...baseGetUserValues,
         granteeId: 'test-user-1',
       })
@@ -57,7 +57,7 @@ describe('getUser', () => {
     })
 
     it('treats capability names as case-insensitive', async () => {
-      const { hasCapability } = await getUser({
+      const { hasCapability } = await getGrantee({
         ...baseGetUserValues,
         granteeId: 'test-user-1',
       })
@@ -68,7 +68,7 @@ describe('getUser', () => {
     })
 
     it('correctly checks multiple capabilities', async () => {
-      const { hasCapability } = await getUser({
+      const { hasCapability } = await getGrantee({
         ...baseGetUserValues,
         granteeId: 'test-user-1',
       })
@@ -80,7 +80,7 @@ describe('getUser', () => {
     })
 
     it('returns false for capabilities on canceled licenses', async () => {
-      const { hasCapability } = await getUser({
+      const { hasCapability } = await getGrantee({
         ...baseGetUserValues,
         granteeId: 'test-user-1',
       })
