@@ -91,6 +91,9 @@ const checkoutLink = await getCheckoutLink({
   cancelUrl: 'https://your.apps/cancel',
   granteeId: 'your-users-id',
   member: 'your-users-id',
+  checkoutEmail: '', // optional, pre-fills email field in Stripe checkout
+  quantity: 5, // optional, the number of seats purchased on checkout (if using per-seat plan, default is minimum number set on plan)
+  currency: 'EUR', // optional, defaults to the product's default currency in Salable
 })
 ```
 
