@@ -1,12 +1,12 @@
 import { createScope } from './createScope.js'
-import { getUser } from './getUser.js'
+import { getGrantee } from './getGrantee.js'
 import { getProduct } from './getProduct.js'
 import { getCheckoutLink } from './getCheckoutLink.js'
 
 declare global {
   interface Window {
     salable: {
-      getUser: typeof getUser
+      getGrantee: typeof getGrantee
       getProduct: typeof getProduct
       getCheckoutLink: typeof getCheckoutLink
     }
@@ -24,7 +24,7 @@ function addToWindow() {
   if (typeof window === 'undefined') return
 
   window.salable = {
-    getUser,
+    getGrantee,
     getProduct,
     getCheckoutLink,
   }
@@ -32,4 +32,4 @@ function addToWindow() {
 
 addToWindow()
 
-export { createScope, getUser, getProduct, getCheckoutLink }
+export { createScope, getGrantee, getProduct, getCheckoutLink }

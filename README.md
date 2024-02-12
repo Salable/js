@@ -26,10 +26,10 @@ const salableJs = require('@salable/js')
 ```
 
 For convenience, the functions documented are also added to the `window` object
-on the web under the `salable` object. So, `getUser` can be accessed via
-`window.salable.getUser`.
+on the web under the `salable` object. So, `getGrantee` can be accessed via
+`window.salable.getGrantee`.
 
-### `getUser({ apiKey: string, productUuid: string, granteeId?: string })`
+### `getGrantee({ apiKey: string, productUuid: string, granteeId?: string })`
 
 Returns data based on the current user. This function is scoped to a user
 (through the provided `granteeId`) and a product (through the provided
@@ -41,9 +41,9 @@ the provided user's capabilities.
 #### Example
 
 ```js
-import { getUser } from '@salable/js'
+import { getGrantee } from '@salable/js'
 
-const { hasCapability, licenses, capabilities, isTest } = await getUser({
+const { hasCapability, licenses, capabilities, isTest } = await getGrantee({
   apiKey: 'your-api-key',
   productUuid: 'your-product-uuid',
   granteeId: 'your-users-grantee-id',
@@ -107,12 +107,12 @@ This function isn't available on the `window.salable` object in the browser.
 ```js
 import { createScope } from '@salable/js'
 
-const { getUser, getProduct } = createScope({
+const { getGrantee, getProduct } = createScope({
   apiKey: 'your-api-key',
   productUuid: 'your-product-uuid',
 })
 
 // This function now only takes the `granteeId`, the other values are already
 // passed in by the `createScope` call.
-const user = await getUser({ granteeId: 'the-users-grantee-id' })
+const user = await getGrantee({ granteeId: 'the-users-grantee-id' })
 ```
