@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/Salable/js/compare/v3.0.0...v3.1.0) (2024-02-12)
+
+
+### Features
+
+* add optional fields to getCheckoutLink ([1a90851](https://github.com/Salable/js/commit/1a90851bdec5919e9e0b27304f255aebcdae9e49))
+
 # [3.0.0](https://github.com/Salable/js/compare/v2.2.0...v3.0.0) (2024-02-12)
 
 
