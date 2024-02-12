@@ -1,3 +1,25 @@
+# [3.0.0](https://github.com/Salable/js/compare/v2.2.0...v3.0.0) (2024-02-12)
+
+
+### Bug Fixes
+
+* make scoped version of useGrantee take obj id ([dfecbc0](https://github.com/Salable/js/commit/dfecbc0af72b21b1071857ca478f8283139360cb))
+
+
+### Code Refactoring
+
+* move useUser to useGrantee ([0113a14](https://github.com/Salable/js/commit/0113a14ba440a1854c0dd5a75fb9015b77250416))
+
+
+### Features
+
+* add getCheckoutLink function ([6e5cba7](https://github.com/Salable/js/commit/6e5cba724689d345f5ef208c133214c0d4c1b99c))
+
+
+### BREAKING CHANGES
+
+* all useUser imports now need to be useGrantee
+
 # [2.3.0](https://github.com/Salable/js/compare/v2.2.0...v2.3.0) (2024-01-17)
 
 
