@@ -5,6 +5,9 @@ export type GetCheckoutLinkArgs = {
   cancelUrl: string
   granteeId: string
   member: string
+  checkoutEmail?: string
+  quantity?: number
+  currency?: 'EUR' | 'USD' | 'GBP'
 }
 
 export async function getCheckoutLink({
@@ -14,6 +17,9 @@ export async function getCheckoutLink({
   cancelUrl,
   granteeId,
   member,
+  checkoutEmail,
+  quantity,
+  currency,
 }: GetCheckoutLinkArgs) {
   const url =
     `https://api.salable.app/plans/${planUuid}/checkoutlink?` +
@@ -22,6 +28,9 @@ export async function getCheckoutLink({
       cancelUrl,
       granteeId,
       member,
+      customerEmail: checkoutEmail,
+      quantity: quantity.toString(),
+      currency,
     })
   const response = await fetch(url, {
     method: 'GET',
