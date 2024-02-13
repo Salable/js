@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/Salable/js/compare/v3.1.0...v3.1.1) (2024-02-13)
+
+
+### Bug Fixes
+
+* only .toString() quantity if provided ([6378f71](https://github.com/Salable/js/commit/6378f718ceb6e03b1cbcbed12b7afd4c3bc37070))
+
 # [3.1.0](https://github.com/Salable/js/compare/v3.0.0...v3.1.0) (2024-02-12)
 
 
