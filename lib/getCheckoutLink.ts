@@ -29,7 +29,7 @@ export async function getCheckoutLink({
       granteeId,
       member,
       customerEmail: checkoutEmail,
-      quantity: quantity.toString(),
+      quantity: quantity?.toString(),
       currency,
     })
   const response = await fetch(url, {
