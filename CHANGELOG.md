@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/Salable/js/compare/v3.1.1...v3.1.2) (2024-02-14)
+
+
+### Bug Fixes
+
+* filter undefined params -> getCheckoutLink ([8430bd9](https://github.com/Salable/js/commit/8430bd9357abe9b4195b7bace732d376c32dfe80))
+
 ## [3.1.1](https://github.com/Salable/js/compare/v3.1.0...v3.1.1) (2024-02-13)
 
 
