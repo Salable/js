@@ -21,17 +21,29 @@ export async function getCheckoutLink({
   quantity,
   currency,
 }: GetCheckoutLinkArgs) {
+  const rawSearchParams = {
+    successUrl,
+    cancelUrl,
+    granteeId,
+    member,
+    customerEmail: checkoutEmail,
+    quantity: quantity?.toString(),
+    currency,
+  }
+
+  const searchParams = Object.entries(rawSearchParams).reduce(
+    (acc, [key, value]) => {
+      if (!value) return acc
+      return { ...acc, [key]: value }
+    },
+    {},
+  )
+
   const url =
     `https://api.salable.app/plans/${planUuid}/checkoutlink?` +
-    new URLSearchParams({
-      successUrl,
-      cancelUrl,
-      granteeId,
-      member,
-      customerEmail: checkoutEmail,
-      quantity: quantity?.toString(),
-      currency,
-    })
+    new URLSearchParams(searchParams)
+
+  console.log({ url })
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -41,5 +53,6 @@ export async function getCheckoutLink({
   })
 
   const { checkoutUrl } = await response.json()
+
   return checkoutUrl
 }
