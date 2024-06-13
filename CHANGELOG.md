@@ -1,3 +1,10 @@
+## [3.1.3](https://github.com/Salable/js/compare/v3.1.2...v3.1.3) (2024-06-13)
+
+
+### Bug Fixes
+
+* getGrantee when no license data available ([3d73574](https://github.com/Salable/js/commit/3d735740e92e5b3b5f78840ca48bae1a229a387a))
+
 ## [3.1.2](https://github.com/Salable/js/compare/v3.1.1...v3.1.2) (2024-02-14)
 
 
