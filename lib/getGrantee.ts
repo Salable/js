@@ -74,10 +74,23 @@ async function _getGrantee({
     },
   )
 
-  if (response.status !== 200)
+  if (!response.status.toString().startsWith('2'))
     throw new Error('Could not fetch user licenses...')
 
-  const allLicenses = await response.json()
+  let allLicenses = null
+
+  try {
+    allLicenses = await response.json()
+  } catch (error) {
+    /**
+     * In the case that the user has no licenses at all, the API returns a 204
+     * No Content response. This then throws an error when we try to JSON parse
+     * it.
+     *
+     * That is why we set the array to be empty manually in this case.
+     */
+    allLicenses = []
+  }
 
   const licenses = allLicenses.filter(
     (license) => license.productUuid === productUuid,

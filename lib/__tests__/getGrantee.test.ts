@@ -9,83 +9,94 @@ const baseGetUserValues = {
 }
 
 describe('getGrantee', () => {
-  beforeEach(() => {
-    fetchMock.mockOnce(JSON.stringify(mockResponseData))
-  })
-  it('returns scoped version if granteeId is omitted', () => {
-    expect(getGrantee(baseGetUserValues)).toBeTypeOf('function')
-  })
-
-  it('returns the correct capabilities', async () => {
-    const { capabilities } = await getGrantee({
-      ...baseGetUserValues,
-      granteeId: 'hi',
+  describe.only('without license data', () => {
+    beforeEach(() => {
+      fetchMock.mockOnce(null, { status: 204, statusText: 'No Content' })
     })
 
-    expect(capabilities).toMatchObject([{ name: 'create', status: 'ACTIVE' }])
+    it('works as intended', () => {
+      getGrantee({ ...baseGetUserValues, granteeId: 'hi' })
+    })
   })
-
-  it('excludes capabilities on canceled licenses from list', async () => {
-    const { capabilities } = await getGrantee({
-      ...baseGetUserValues,
-      granteeId: 'test-user-1',
+  describe('with license data', () => {
+    beforeEach(() => {
+      fetchMock.mockOnce(JSON.stringify(mockResponseData))
+    })
+    it('returns scoped version if granteeId is omitted', () => {
+      expect(getGrantee(baseGetUserValues)).toBeTypeOf('function')
     })
 
-    expect(capabilities).not.toMatchObject([{ name: 'notify' }])
-  })
+    it('returns the correct capabilities', async () => {
+      const { capabilities } = await getGrantee({
+        ...baseGetUserValues,
+        granteeId: 'hi',
+      })
 
-  it('filters out products that do not match the provided productUuid', async () => {
-    const { licenses, capabilities } = await getGrantee({
-      productUuid: 'test',
-      apiKey: 'my-api-key',
-      granteeId: 'hi',
+      expect(capabilities).toMatchObject([{ name: 'create', status: 'ACTIVE' }])
     })
 
-    expect(licenses.length).toBe(0)
-    expect(capabilities.length).toBe(0)
-  })
-
-  describe('hasCapability', () => {
-    it('correctly checks for individual capabilities', async () => {
-      const { hasCapability } = await getGrantee({
+    it('excludes capabilities on canceled licenses from list', async () => {
+      const { capabilities } = await getGrantee({
         ...baseGetUserValues,
         granteeId: 'test-user-1',
       })
 
-      expect(hasCapability('Edit')).toEqual(false)
-      expect(hasCapability('Create')).toEqual(true)
+      expect(capabilities).not.toMatchObject([{ name: 'notify' }])
     })
 
-    it('treats capability names as case-insensitive', async () => {
-      const { hasCapability } = await getGrantee({
-        ...baseGetUserValues,
-        granteeId: 'test-user-1',
+    it('filters out products that do not match the provided productUuid', async () => {
+      const { licenses, capabilities } = await getGrantee({
+        productUuid: 'test',
+        apiKey: 'my-api-key',
+        granteeId: 'hi',
       })
 
-      expect(hasCapability('Create')).toEqual(true)
-      expect(hasCapability('create')).toEqual(true)
-      expect(hasCapability('CReaTE')).toEqual(true)
+      expect(licenses.length).toBe(0)
+      expect(capabilities.length).toBe(0)
     })
 
-    it('correctly checks multiple capabilities', async () => {
-      const { hasCapability } = await getGrantee({
-        ...baseGetUserValues,
-        granteeId: 'test-user-1',
+    describe('hasCapability', () => {
+      it('correctly checks for individual capabilities', async () => {
+        const { hasCapability } = await getGrantee({
+          ...baseGetUserValues,
+          granteeId: 'test-user-1',
+        })
+
+        expect(hasCapability('Edit')).toEqual(false)
+        expect(hasCapability('Create')).toEqual(true)
       })
 
-      expect(hasCapability(['edit', 'create'])).toMatchObject({
-        edit: false,
-        create: true,
-      })
-    })
+      it('treats capability names as case-insensitive', async () => {
+        const { hasCapability } = await getGrantee({
+          ...baseGetUserValues,
+          granteeId: 'test-user-1',
+        })
 
-    it('returns false for capabilities on canceled licenses', async () => {
-      const { hasCapability } = await getGrantee({
-        ...baseGetUserValues,
-        granteeId: 'test-user-1',
+        expect(hasCapability('Create')).toEqual(true)
+        expect(hasCapability('create')).toEqual(true)
+        expect(hasCapability('CReaTE')).toEqual(true)
       })
 
-      expect(hasCapability('notify')).toEqual(false)
+      it('correctly checks multiple capabilities', async () => {
+        const { hasCapability } = await getGrantee({
+          ...baseGetUserValues,
+          granteeId: 'test-user-1',
+        })
+
+        expect(hasCapability(['edit', 'create'])).toMatchObject({
+          edit: false,
+          create: true,
+        })
+      })
+
+      it('returns false for capabilities on canceled licenses', async () => {
+        const { hasCapability } = await getGrantee({
+          ...baseGetUserValues,
+          granteeId: 'test-user-1',
+        })
+
+        expect(hasCapability('notify')).toEqual(false)
+      })
     })
   })
 })
