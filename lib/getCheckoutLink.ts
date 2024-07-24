@@ -43,7 +43,6 @@ export async function getCheckoutLink({
     `https://api.salable.app/plans/${planUuid}/checkoutlink?` +
     new URLSearchParams(searchParams)
 
-  console.log({ url })
   const response = await fetch(url, {
     method: 'GET',
     headers: {

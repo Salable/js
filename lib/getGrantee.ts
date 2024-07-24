@@ -1,23 +1,3 @@
-type UserLicense = {
-  uuid: string
-  subscriptionUuid: string
-  planUuid: string
-  purchaser: string
-  granteeId: string
-  email: string
-  name: string
-  startTime: Date
-  endTime: Date
-  updatedAt: Date
-  status:
-    | 'ACTIVE'
-    | 'CANCELED'
-    | 'EVALUATION'
-    | 'SCHEDULED'
-    | 'TRIALING'
-    | 'INACTIVE'
-}
-
 type GetGranteeParams = {
   apiKey: string
   productUuid: string
@@ -30,14 +10,12 @@ type HasCapability = {
 }
 
 export type UserData = {
-  isTest: boolean
-  licenses: UserLicense[]
   /**
    * A list of combined capabilities that the user has access to based on their
    * active licenses. This array contains both active and in-active
    * capabilities.
    */
-  capabilities: { name: string; status: 'ACTIVE' | 'DEPRECATED' }[]
+  capabilities: string[]
   /**
    * Used to check whether a user has either an active capability, or a list of
    * supplied capabilities. Capability names are case insensitive.
@@ -66,7 +44,7 @@ async function _getGrantee({
   granteeId,
 }: GetGranteeParams): Promise<UserData> {
   const response = await fetch(
-    `https://api.salable.app/licenses/granteeId/${granteeId}`,
+    `https://api.salable.app/licenses/check?productUuid=${productUuid}&granteeIds=${granteeId}`,
     {
       headers: {
         'x-api-key': apiKey,
@@ -77,34 +55,10 @@ async function _getGrantee({
   if (!response.status.toString().startsWith('2'))
     throw new Error('Could not fetch user licenses...')
 
-  let allLicenses = null
-
+  let capabilities: string[] = []
   try {
-    allLicenses = await response.json()
-  } catch (error) {
-    /**
-     * In the case that the user has no licenses at all, the API returns a 204
-     * No Content response. This then throws an error when we try to JSON parse
-     * it.
-     *
-     * That is why we set the array to be empty manually in this case.
-     */
-    allLicenses = []
-  }
-
-  const licenses = allLicenses.filter(
-    (license) => license.productUuid === productUuid,
-  )
-
-  const capabilities = licenses
-    .filter((license) => license.status === 'ACTIVE')
-    .flatMap(
-      (license) =>
-        license.capabilities.flatMap((capability) => ({
-          name: capability.name,
-          status: capability.status,
-        })) ?? [],
-    )
+    capabilities = (await response.json()).capabilities
+  } catch (error) {}
 
   // Overload for checking an individual capability.
   function hasCapability(capability: string): boolean
@@ -118,9 +72,9 @@ async function _getGrantee({
   function hasCapability<T extends string>(
     capabilityOrCapabilities: string | readonly string[],
   ): boolean | { [Key in T]: boolean } {
-    const activeCapabilities = capabilities
-      .filter(({ status }) => status === 'ACTIVE')
-      .map(({ name }) => name.toLowerCase())
+    const activeCapabilities = capabilities.map((capability) =>
+      capability.toLowerCase(),
+    )
 
     if (typeof capabilityOrCapabilities === 'string') {
       return activeCapabilities.includes(capabilityOrCapabilities.toLowerCase())
@@ -134,24 +88,8 @@ async function _getGrantee({
     }, {}) as { [Key in T]: boolean }
   }
 
-  const transformedLicenses: UserLicense[] = licenses.map((license) => ({
-    email: license.email as string,
-    name: license.name as string,
-    purchaser: license.purchaser as string,
-    granteeId: license.granteeId as string,
-    uuid: license.uuid as string,
-    planUuid: license.planUuid as string,
-    subscriptionUuid: license.subscriptionUuid as string,
-    status: license.status as UserLicense['status'],
-    startTime: new Date(license.startTime as string),
-    endTime: new Date(license.endTime as string),
-    updatedAt: new Date(license.updatedAt as string),
-  }))
-
   return {
     capabilities,
-    isTest: licenses.some((license) => license.isTest),
-    licenses: transformedLicenses,
     hasCapability,
   }
 }
