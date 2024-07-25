@@ -1,3 +1,16 @@
+# [4.0.0](https://github.com/Salable/js/compare/v3.1.3...v4.0.0) (2024-07-25)
+
+
+### Features
+
+* use license check endpoint ([7e693b4](https://github.com/Salable/js/commit/7e693b4685670906cb18c1d976c023469f44cdce))
+
+
+### BREAKING CHANGES
+
+* Returned data shape has changed to no longer include
+`isTest` or `licenses`.
+
 ## [3.1.3](https://github.com/Salable/js/compare/v3.1.2...v3.1.3) (2024-06-13)
 
 
