@@ -31,8 +31,8 @@ on the web under the `salable` object. So, `getGrantee` can be accessed via
 
 ### `getGrantee({ apiKey: string, productUuid: string, granteeId?: string })`
 
-Returns data based on the current user. This function is scoped to a user
-(through the provided `granteeId`) and a product (through the provided
+Returns a list of capabilities for the current user. This function is scoped to
+a grantee (through the provided `granteeId`) and a product (through the provided
 `productUuid`).
 
 Also returns a `hasCapability` utility function that simplifies the checking of
@@ -117,5 +117,5 @@ const { getGrantee, getProduct } = createScope({
 
 // This function now only takes the `granteeId`, the other values are already
 // passed in by the `createScope` call.
-const user = await getGrantee({ granteeId: 'the-users-grantee-id' })
+const grantee = await getGrantee({ granteeId: 'the-users-grantee-id' })
 ```

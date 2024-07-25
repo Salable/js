@@ -9,7 +9,7 @@ const baseGetUserValues = {
 }
 
 describe('getGrantee', () => {
-  describe.only('without license data', () => {
+  describe('without license data', () => {
     beforeEach(() => {
       fetchMock.mockOnce(null, { status: 204, statusText: 'No Content' })
     })
@@ -18,10 +18,12 @@ describe('getGrantee', () => {
       getGrantee({ ...baseGetUserValues, granteeId: 'hi' })
     })
   })
+
   describe('with license data', () => {
     beforeEach(() => {
       fetchMock.mockOnce(JSON.stringify(mockResponseData))
     })
+
     it('returns scoped version if granteeId is omitted', () => {
       expect(getGrantee(baseGetUserValues)).toBeTypeOf('function')
     })
@@ -32,27 +34,8 @@ describe('getGrantee', () => {
         granteeId: 'hi',
       })
 
-      expect(capabilities).toMatchObject([{ name: 'create', status: 'ACTIVE' }])
-    })
-
-    it('excludes capabilities on canceled licenses from list', async () => {
-      const { capabilities } = await getGrantee({
-        ...baseGetUserValues,
-        granteeId: 'test-user-1',
-      })
-
-      expect(capabilities).not.toMatchObject([{ name: 'notify' }])
-    })
-
-    it('filters out products that do not match the provided productUuid', async () => {
-      const { licenses, capabilities } = await getGrantee({
-        productUuid: 'test',
-        apiKey: 'my-api-key',
-        granteeId: 'hi',
-      })
-
-      expect(licenses.length).toBe(0)
-      expect(capabilities.length).toBe(0)
+      expect(capabilities).toMatchObject(['create', 'read', 'update', 'delete'])
+      expect(capabilities).toHaveLength(4)
     })
 
     describe('hasCapability', () => {
@@ -87,15 +70,6 @@ describe('getGrantee', () => {
           edit: false,
           create: true,
         })
-      })
-
-      it('returns false for capabilities on canceled licenses', async () => {
-        const { hasCapability } = await getGrantee({
-          ...baseGetUserValues,
-          granteeId: 'test-user-1',
-        })
-
-        expect(hasCapability('notify')).toEqual(false)
       })
     })
   })
