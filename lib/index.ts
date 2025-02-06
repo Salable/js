@@ -2,6 +2,7 @@ import { createScope } from './createScope.js'
 import { getGrantee } from './getGrantee.js'
 import { getProduct } from './getProduct.js'
 import { getCheckoutLink } from './getCheckoutLink.js'
+import { verifyLicenseCheck } from './verifyLicenseCheck.js'
 
 declare global {
   interface Window {
@@ -9,6 +10,7 @@ declare global {
       getGrantee: typeof getGrantee
       getProduct: typeof getProduct
       getCheckoutLink: typeof getCheckoutLink
+      verifyLicenseCheck: typeof verifyLicenseCheck
     }
   }
 }
@@ -27,9 +29,10 @@ function addToWindow() {
     getGrantee,
     getProduct,
     getCheckoutLink,
+    verifyLicenseCheck
   }
 }
 
 addToWindow()
 
-export { createScope, getGrantee, getProduct, getCheckoutLink }
+export { createScope, getGrantee, getProduct, getCheckoutLink, verifyLicenseCheck }
