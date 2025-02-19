@@ -1,3 +1,16 @@
+# [4.1.0](https://github.com/Salable/js/compare/v4.0.0...v4.1.0) (2025-02-19)
+
+
+### Bug Fixes
+
+* added verifyLicenseCheck to index.ts ([147a927](https://github.com/Salable/js/commit/147a9270469a18595af4d4c726daae475c6e0916))
+
+
+### Features
+
+* **SD-1282:** added verifyLicenseCheck method ([6070325](https://github.com/Salable/js/commit/607032525ac6f3fcb0c46c0e3d38201fbd3433a5))
+* updated license check verification method to use subtle crypto ([ac30837](https://github.com/Salable/js/commit/ac3083769fb4386d1fcd54c53a9e9253950f6cfc))
+
 # [4.0.0](https://github.com/Salable/js/compare/v3.1.3...v4.0.0) (2024-07-25)
 
 
