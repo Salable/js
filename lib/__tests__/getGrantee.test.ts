@@ -9,7 +9,7 @@ const baseGetUserValues = {
 }
 
 describe('getGrantee', () => {
-  describe('without license data', () => {
+  describe('without subscription data', () => {
     beforeEach(() => {
       fetchMock.mockOnce(null, { status: 204, statusText: 'No Content' })
     })
@@ -19,7 +19,7 @@ describe('getGrantee', () => {
     })
   })
 
-  describe('with license data', () => {
+  describe('with subscription data', () => {
     beforeEach(() => {
       fetchMock.mockOnce(JSON.stringify(mockResponseData))
     })
@@ -28,45 +28,45 @@ describe('getGrantee', () => {
       expect(getGrantee(baseGetUserValues)).toBeTypeOf('function')
     })
 
-    it('returns the correct capabilities', async () => {
-      const { capabilities } = await getGrantee({
+    it('returns the correct features', async () => {
+      const { features } = await getGrantee({
         ...baseGetUserValues,
         granteeId: 'hi',
       })
 
-      expect(capabilities).toMatchObject(['create', 'read', 'update', 'delete'])
-      expect(capabilities).toHaveLength(4)
+      expect(features).toMatchObject(['create', 'read', 'update', 'delete'])
+      expect(features).toHaveLength(4)
     })
 
-    describe('hasCapability', () => {
-      it('correctly checks for individual capabilities', async () => {
-        const { hasCapability } = await getGrantee({
+    describe('hasFeature', () => {
+      it('correctly checks for individual features', async () => {
+        const { hasFeature } = await getGrantee({
           ...baseGetUserValues,
           granteeId: 'test-user-1',
         })
 
-        expect(hasCapability('Edit')).toEqual(false)
-        expect(hasCapability('Create')).toEqual(true)
+        expect(hasFeature('Edit')).toEqual(false)
+        expect(hasFeature('Create')).toEqual(true)
       })
 
-      it('treats capability names as case-insensitive', async () => {
-        const { hasCapability } = await getGrantee({
+      it('treats feature names as case-insensitive', async () => {
+        const { hasFeature } = await getGrantee({
           ...baseGetUserValues,
           granteeId: 'test-user-1',
         })
 
-        expect(hasCapability('Create')).toEqual(true)
-        expect(hasCapability('create')).toEqual(true)
-        expect(hasCapability('CReaTE')).toEqual(true)
+        expect(hasFeature('Create')).toEqual(true)
+        expect(hasFeature('create')).toEqual(true)
+        expect(hasFeature('CReaTE')).toEqual(true)
       })
 
-      it('correctly checks multiple capabilities', async () => {
-        const { hasCapability } = await getGrantee({
+      it('correctly checks multiple features', async () => {
+        const { hasFeature } = await getGrantee({
           ...baseGetUserValues,
           granteeId: 'test-user-1',
         })
 
-        expect(hasCapability(['edit', 'create'])).toMatchObject({
+        expect(hasFeature(['edit', 'create'])).toMatchObject({
           edit: false,
           create: true,
         })

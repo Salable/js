@@ -4,38 +4,32 @@ type GetGranteeParams = {
   granteeId: string
 }
 
-type HasCapability = {
-  (capability: string): boolean
-  <T extends string>(capabilities: readonly T[]): { [Key in T]: boolean }
+type HasFeature = {
+  (feature: string): boolean
+  <T extends string>(features: readonly T[]): { [Key in T]: boolean }
 }
 
 export type UserData = {
   /**
-   * A list of combined capabilities that the user has access to based on their
-   * active licenses. This array contains both active and in-active
-   * capabilities.
+   * A list of features that the grantee has access to based on their
+   * active subscriptions.
    */
-  capabilities: string[]
+  features: string[]
   /**
-   * Used to check whether a user has either an active capability, or a list of
-   * supplied capabilities. Capability names are case insensitive.
+   * Used to check whether a grantee has an active feature or number of
+   * features. Feature names are case insensitive.
    *
-   * All inactive capabilities will return false. This includes capabilities
-   * that are on 'canceled' licenses. If you want to check for a capability
-   * that isn't active, or is on a canceled license, use the `capabilities`
-   * array returned by this hook.
-   *
-   * To check a single capability:
+   * To check a single feature:
    * ```
-   * const hasCreate = hasCapability('create');
+   * const hasCreate = hasFeature('create');
    * ```
    *
-   * To check a list of capabilities:
+   * To check a list of features:
    * ```
-   * const { create, update } = hasCapability(['create', 'update']);
+   * const { create, update } = hasFeature(['create', 'update']);
    * ```
    */
-  hasCapability: HasCapability
+  hasFeature: HasFeature
 }
 
 async function _getGrantee({
@@ -55,42 +49,40 @@ async function _getGrantee({
   if (!response.status.toString().startsWith('2'))
     throw new Error('Could not fetch user licenses...')
 
-  let capabilities: string[] = []
+  let features: string[] = []
   try {
-    capabilities = (await response.json()).capabilities
+    features = (await response.json()).capabilities
   } catch (error) {}
 
   // Overload for checking an individual capability.
-  function hasCapability(capability: string): boolean
+  function hasFeature(feature: string): boolean
   // Overload for checking a list of capabilities and receiving an object with
   // those capabilities as keys.
-  function hasCapability<T extends string>(
-    capabilities: readonly T[],
+  function hasFeature<T extends string>(
+    features: readonly T[],
   ): { [Key in T]: boolean }
 
   // Implementation of the hasCapability function based on the above overloads.
-  function hasCapability<T extends string>(
-    capabilityOrCapabilities: string | readonly string[],
+  function hasFeature<T extends string>(
+    featureOrFeatures: string | readonly string[],
   ): boolean | { [Key in T]: boolean } {
-    const activeCapabilities = capabilities.map((capability) =>
-      capability.toLowerCase(),
-    )
+    const lowerCasedFeatures = features.map((f) => f.toLowerCase())
 
-    if (typeof capabilityOrCapabilities === 'string') {
-      return activeCapabilities.includes(capabilityOrCapabilities.toLowerCase())
+    if (typeof featureOrFeatures === 'string') {
+      return lowerCasedFeatures.includes(featureOrFeatures.toLowerCase())
     }
 
-    return capabilityOrCapabilities.reduce((acc, curr) => {
+    return featureOrFeatures.reduce((acc, curr) => {
       return {
         ...acc,
-        [curr]: activeCapabilities.includes(curr.toLowerCase()),
+        [curr]: lowerCasedFeatures.includes(curr.toLowerCase()),
       }
     }, {}) as { [Key in T]: boolean }
   }
 
   return {
-    capabilities,
-    hasCapability,
+    features,
+    hasFeature,
   }
 }
 
