@@ -13,7 +13,7 @@ describe('getCheckoutLink', () => {
       cancelUrl: 'https://www.example.com',
       successUrl: 'https://www.example.com',
       granteeId: 'test-user-1',
-      member: 'test-owner-1',
+      owner: 'test-owner-1',
     })
 
     expect(checkoutUrl).toEqual('https://stripe.com/')

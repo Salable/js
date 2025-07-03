@@ -4,7 +4,7 @@ export type GetCheckoutLinkArgs = {
   successUrl: string
   cancelUrl: string
   granteeId: string
-  member: string
+  owner: string
   checkoutEmail?: string
   quantity?: number
   currency?: 'EUR' | 'USD' | 'GBP'
@@ -16,28 +16,23 @@ export async function getCheckoutLink({
   successUrl,
   cancelUrl,
   granteeId,
-  member,
+  owner,
   checkoutEmail,
   quantity,
   currency,
 }: GetCheckoutLinkArgs) {
-  const rawSearchParams = {
+  const searchParams = Object.entries({
     successUrl,
     cancelUrl,
     granteeId,
-    member,
+    owner,
     customerEmail: checkoutEmail,
     quantity: quantity?.toString(),
     currency,
-  }
-
-  const searchParams = Object.entries(rawSearchParams).reduce(
-    (acc, [key, value]) => {
-      if (!value) return acc
-      return { ...acc, [key]: value }
-    },
-    {},
-  )
+  }).reduce((acc, [key, value]) => {
+    if (!value) return acc
+    return { ...acc, [key]: value }
+  }, {})
 
   const url =
     `https://api.salable.app/plans/${planUuid}/checkoutlink?` +

@@ -1,5 +1,4 @@
-A set of functions to simplify building Salable applications in
-JavaScript/Node.js.
+A set of functions to simplify building Salable applications on the client.
 
 ## Installation
 
@@ -7,17 +6,16 @@ JavaScript/Node.js.
 # npm
 npm install @salable/js
 
+# pnpm
+pnpm add @salable/js
+
 # yarn
 yarn add @salable/js
-
-# pnpm
-pnpm install @salable/js
 ```
 
 ## Functions
 
-The library features exports for both ECMAScript Modules (ESM) and CommonJS
-(CJS).
+The library exports both ECMAScript Modules (ESM) and CommonJS (CJS) builds.
 
 ```js
 import salableJs from '@salable/js'
@@ -25,32 +23,29 @@ import salableJs from '@salable/js'
 const salableJs = require('@salable/js')
 ```
 
-For convenience, the functions documented are also added to the `window` object
-on the web under the `salable` object. So, `getGrantee` can be accessed via
-`window.salable.getGrantee`.
+For convenience, the functions documented are also added to the browser's
+`window` object as part of the `salable` object. So, `getGrantee` can be
+accessed via `window.salable.getGrantee`.
 
 ### `getGrantee({ apiKey: string, productUuid: string, granteeId?: string })`
 
-Returns a list of capabilities for the current user. This function is scoped to
-a grantee (through the provided `granteeId`) and a product (through the provided
-`productUuid`).
+Returns the features the provided grantee has access to.
 
-Also returns a `hasCapability` utility function that simplifies the checking of
-the provided user's capabilities.
+Also returns a `hasFeature` utility function that simplifies feature checking.
 
 #### Example
 
 ```js
 import { getGrantee } from '@salable/js'
 
-const { hasCapability, licenses, capabilities, isTest } = await getGrantee({
+const { features, hasFeature } = await getGrantee({
   apiKey: 'your-api-key',
   productUuid: 'your-product-uuid',
   granteeId: 'your-users-grantee-id',
 })
 
-if (hasCapability('edit')) {
-  console.log('You have the edit capability!')
+if (hasFeature('edit')) {
+  console.log('Grantee has access to the edit feature!')
 }
 ```
 
@@ -75,7 +70,7 @@ const { name, plans } = await getProduct({
 })
 ```
 
-### `getCheckoutLink({ apiKey: string, planUuid: string, successUrl: string, cancelUrl: string, granteeId: string, member: string })`
+### `getCheckoutLink({ apiKey: string, planUuid: string, successUrl: string, cancelUrl: string, granteeId: string, owner: string })`
 
 Returns a checkout link for the specified `planUuid`.
 
@@ -90,7 +85,7 @@ const checkoutLink = await getCheckoutLink({
   successUrl: 'https://your.apps/success',
   cancelUrl: 'https://your.apps/cancel',
   granteeId: 'your-users-id',
-  member: 'your-users-id',
+  owner: 'your-users-id',
   checkoutEmail: '', // optional, pre-fills email field in Stripe checkout
   quantity: 5, // optional, the number of seats purchased on checkout (if using per-seat plan, default is minimum number set on plan)
   currency: 'EUR', // optional, defaults to the product's default currency in Salable
