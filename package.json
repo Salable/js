@@ -1,6 +1,6 @@
 {
   "name": "@salable/js",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "A set of functions to simplify building Salable applications on the client.",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

@@ -1,3 +1,22 @@
+# [5.0.0](https://github.com/Salable/js/compare/v4.1.0...v5.0.0) (2025-07-03)
+
+
+### Documentation
+
+* update README for v5.0.0 release ([84b0184](https://github.com/Salable/js/commit/84b018436b1a20a7547698aafc5368b7c98a8c05))
+
+
+### Features
+
+* pass owner rather than member into getCheckoutLink ([c0a0f1a](https://github.com/Salable/js/commit/c0a0f1a740a046d5cc2efb242abc08efa0d6820a))
+* rename hasCapability to hasFeature ([784ced9](https://github.com/Salable/js/commit/784ced9411adf4277cf55a18666b7de69aefcdaa))
+
+
+### BREAKING CHANGES
+
+* hasCapability renamed to hasFeature. And
+getCheckoutLink member param renamed to owner
+
 # [4.1.0](https://github.com/Salable/js/compare/v4.0.0...v4.1.0) (2025-02-19)
 
 
